@@ -1,6 +1,6 @@
 /*
    CYSE 411
-   Code analyais Homework Assignment 
+   Code analysis Homework Assignment 
 	Brendon Shao and Alex Pierson
    Code was adapted from:
    NYU Polytechnic Institute
