@@ -1,7 +1,7 @@
 /*
    CYSE 411
    Code analyais Homework Assignment 
-
+	Brendon Shao and Alex Pierson
    Code was adapted from:
    NYU Polytechnic Institute
    CS6573: Penetration Testing and Vulnerability Analysis	
