@@ -106,11 +106,14 @@ void writeArticle(int sock, FILE *logfile, char *action)
 	char *p;
 	size_t x, y;
 	int complete = 0;
-	char buf[1024];
-	char path[1024];
+	
+	/* Function attempts to use free() on pointers buf and path, which are non-heap objects. 
+	Pointers buf and path should instead be created using calloc(). */
+	//char buf[1024];
+	//char path[1024];
 
-	// char* buf  = (char*)calloc(1024, sizeof(char));
-	// char* path = (char*)calloc(1024, sizeof(char));
+	char* buf  = (char*)calloc(1024, sizeof(char));
+	char* path = (char*)calloc(1024, sizeof(char));
 
 	strcpy(path, ARTICLEPATH);
 	strncat(path, &action[1], sizeof(path));
