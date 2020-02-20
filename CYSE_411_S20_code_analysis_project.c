@@ -261,7 +261,8 @@ int adminFunctions(FILE *logfile, int sock)
 			logData(logfile, "unknown action: %x", action[0]);
 		}
 	}
-
+	/* first error. Function is declared with an int return type, but returns nothing. 
+	Changed to return an int, 0. */
 	//return;
 	return 0;
 }
@@ -488,7 +489,9 @@ void mainLoop(FILE *logf, int sock)
 	struct sockaddr_in *client = (struct sockaddr_in*)malloc(sizeof(struct sockaddr_in));
 	socklen_t clientlen = 0;
 	pid_t offspring = 0;
-
+	
+	/* second error. First argument of memset need to be a pointer, but is a value. 
+	changed to pass in a pointer instead of a value. */
 	//memset(*client, 0, sizeof(client));
 	memset(client, 0, sizeof(client));
 	
