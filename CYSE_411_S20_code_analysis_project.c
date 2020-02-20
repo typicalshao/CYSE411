@@ -262,7 +262,8 @@ int adminFunctions(FILE *logfile, int sock)
 		}
 	}
 
-	return;
+	//return;
+	return 0;
 }
 
 int userFunctions(FILE *logfile, int sock, char *user)
@@ -488,7 +489,8 @@ void mainLoop(FILE *logf, int sock)
 	socklen_t clientlen = 0;
 	pid_t offspring = 0;
 
-	memset(*client, 0, sizeof(client));
+	//memset(*client, 0, sizeof(client));
+	memset(client, 0, sizeof(client));
 	
 	logData(logf, "entering main loop...");
 
