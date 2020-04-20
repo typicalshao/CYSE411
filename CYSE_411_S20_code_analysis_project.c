@@ -116,7 +116,8 @@ void writeArticle(int sock, FILE *logfile, char *action)
 	char* path = (char*)calloc(1024, sizeof(char));
 
 	strcpy(path, ARTICLEPATH);
-	strncat(path, &action[1], sizeof(path));
+	//strncat(path, &action[1], sizeof(path));
+	strncat(path, &action[1], sizeof(path)-strlen(path)-1);
 
 	logData(logfile, "user writing article: %s", path);
 
@@ -125,6 +126,10 @@ void writeArticle(int sock, FILE *logfile, char *action)
 	if (!file)
 	{
 		writeSock(sock, FILENOTAVAIL, sizeof(FILENOTAVAIL));
+		/* added fclose(file), free(buf), and free(path) */
+		fclose(file);
+		free(buf);
+		free(path);
 		return;
 	}
 
@@ -168,7 +173,8 @@ void readArticle(int sock, FILE *logfile, char *action)
 	logData(logfile, &action[1]);
 
 	strcpy(path, ARTICLEPATH);
-	strcat(path, &action[1]);
+	//strcat(path, &action[1]);
+	strncat(path, &action[1], sizeof(path)-strlen(path)-1);
 
 	logData(logfile, "user request to read article: %s", path);
 
@@ -330,7 +336,8 @@ int authenticate(FILE *logfile, char *user, char *pass)
 	/* look up user by checking user files: done via system() to /bin/ls|grep user */
 	logData(logfile, "performing lookup for user via system()!\n");
 	snprintf(userfile, sizeof(userfile)-1, "%s.txt", user);
-	snprintf(search, sizeof(userfile)-1, "stat %s`ls %s | grep %s`", USERPATH, USERPATH, userfile);
+	//snprintf(search, sizeof(userfile)-1, "stat %s`ls %s | grep %s`", USERPATH, USERPATH, userfile);
+	snprintf(search, sizeof(search)-1, "stat %s`ls %s | grep %s`", USERPATH, USERPATH, userfile);
 	ret = system(search);
 
 	if (ret != 0)
@@ -476,13 +483,18 @@ void handleConnection(FILE *logfile, int sock)
 
 		snprintf(buffer, sizeof(buffer)-1,"user: %s failed to login with password %s", user, pass);
 		logData(logfile, buffer);
+		/* add free(user) and free(pass) */
+		free(user);
+		free(pass);
 		return;
 	}
 
 	logData(logfile, "user %s authenticated!", user);
 	
 	userFunctions(logfile, sock, user);
-
+	/* add free(user) and free(pass) */
+	free(user);
+	free(pass);
 	return;
 } 
 
