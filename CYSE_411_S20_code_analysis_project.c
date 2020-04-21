@@ -189,7 +189,8 @@ void readArticle(int sock, FILE *logfile, char *action)
 	/* fgets for the size of the buffer (100), from the file
 	   writing the article to the user each time! */
  
-	while (fgets(buf, 1000, file))
+	//while (fgets(buf, 1000, file))
+	while (fgets(buf, 100, file))
 	{
 		writeSock(sock, buf, strlen(buf));
 	}
