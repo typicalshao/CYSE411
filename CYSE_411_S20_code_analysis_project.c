@@ -117,7 +117,7 @@ void writeArticle(int sock, FILE *logfile, char *action)
 
 	strcpy(path, ARTICLEPATH);
 	//strncat(path, &action[1], sizeof(path));
-	strncat(path, &action[1], sizeof(path)-strlen(path)-1);
+	strncat(path, &action[1], 1023-strlen(path));
 
 	logData(logfile, "user writing article: %s", path);
 
@@ -137,8 +137,10 @@ void writeArticle(int sock, FILE *logfile, char *action)
 
 	while (1)
 	{
-		memset(buf, 0, sizeof(buf));
-		x = readSock(sock, buf, sizeof(buf)-1);
+		//memset(buf, 0, sizeof(buf));
+		//x = readSock(sock, buf, sizeof(buf)-1);
+		memset(buf, 0, 1024);
+		x = readSock(sock, buf, 1023);
 		for (y = 0; y < x; ++y)
 		{
 			if (buf[y] == '!')
@@ -326,7 +328,8 @@ int authenticate(FILE *logfile, char *user, char *pass)
 	FILE *file;
 	int ret;
 
-	memset(path, 0, sizeof(1024));
+	//memset(path, 0, sizeof(1024));
+	memset(path, 0, 1024);
 
 	/* FIXME: hard coded admin backdoor for password recovery */	
 	if (memcmp(pass, "baCkDoOr", 9) == 0)
@@ -509,7 +512,8 @@ void mainLoop(FILE *logf, int sock)
 	/* second error. First argument of memset need to be a pointer, but is a value. 
 	changed to pass in a pointer instead of a value. */
 	//memset(*client, 0, sizeof(client));
-	memset(client, 0, sizeof(client));
+	//memset(client, 0, sizeof(client));
+	memset(client, 0, sizeof(struct sockaddr_in));
 	
 	logData(logf, "entering main loop...");
 
