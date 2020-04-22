@@ -127,7 +127,6 @@ void writeArticle(int sock, FILE *logfile, char *action)
 	{
 		writeSock(sock, FILENOTAVAIL, sizeof(FILENOTAVAIL));
 		/* added fclose(file), free(buf), and free(path) */
-		fclose(file);
 		free(buf);
 		free(path);
 		return;
